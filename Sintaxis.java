@@ -1,4 +1,3 @@
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,12 +31,13 @@ public class Sintaxis {
             "<IF>", "<ELSE>", "<FOR>", "<WHILE>", "<IN>", "<OUT>", "<ASIGNA>", "<OPR>", "<EXP>", "<T>", "<F>",
             "<R>", "<BLOQUE>", "<OP>" };
 
-            private Tabla tablaSimbolos;
+    private Tabla tablaSimbolos;
     private List<String> pilaErrores;
     private List<String> tablaDeclaraciones;
     private List<String> tablaTipos;
 
-    public Sintaxis(Tabla tablaSimbolos,  List<String> pilaErrores,  List<String> tablaDeclaraciones,  List<String> tablaTipos) {
+    public Sintaxis(Tabla tablaSimbolos, List<String> pilaErrores, List<String> tablaDeclaraciones,
+            List<String> tablaTipos) {
         this.tablaSimbolos = tablaSimbolos;
         this.pilaErrores = pilaErrores;
         this.tablaDeclaraciones = tablaDeclaraciones;
@@ -50,9 +50,8 @@ public class Sintaxis {
 
     public void asignarVar() {
         int pos = this.posicion;
-        //System.out.println(pos);
-        while (!String.valueOf(tablaSimbolos.getElemento(pos)).equals("@") && !String.valueOf(tablaSimbolos.getElemento(pos)).equals(";") ) {
-            System.out.println(cad);
+        while (!String.valueOf(tablaSimbolos.getElemento(pos)).equals("@")
+                && !String.valueOf(tablaSimbolos.getElemento(pos)).equals(";")) {
             cad += String.valueOf(tablaSimbolos.getElementoReal(pos));
             pos++;
         }
@@ -63,31 +62,20 @@ public class Sintaxis {
         return tablaSimbolos.getElemento(posicion);
     }
 
-    public String obtenerActualReal() {
-        return tablaSimbolos.getElementoReal(posicion);
-    }
-
-    public Object obtenerSiguiente() {
-        if (tablaSimbolos.getElemento(posicion + 1).equals("@")) {
-            // sys.exit();
-            // Omitido por ahora
-        } else {
+    public String obtenerSiguiente() {
+        if (!tablaSimbolos.getElemento(posicion + 1).equals("@")) {
             return tablaSimbolos.getElemento(posicion + 1);
         }
         return null;
     }
 
     public String obtenerSiguienteReal() {
-        String cadena = "a"; 
-        return cadena;
-        //return tablaSimbolos.getElementoReal(posicion + 1);
+        return tablaSimbolos.getElementoReal(posicion + 1);
     }
 
     public void avanzar() {
         if (posicion < tablaSimbolos.getTamano() - 1) {
-            posicion += 1;
-        } else {
-            System.out.println("FIN DE PROGRAMA");
+            posicion++;
         }
     }
 
@@ -99,8 +87,7 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error De Inicio, Se Esperaba Una Variable o Alguna Instruccion");
-        }
-        if (!produccion.equals("")) {
+        } else {
             String[] arregloProd = produccion.split(" ");
             for (String i : arregloProd) {
                 if (Arrays.asList(noTerminales).contains(i)) {
@@ -115,22 +102,17 @@ public class Sintaxis {
     }
 
     public void VAR() {
-        String prueba = "";
         Object actual = obtenerActual();
         String produccion = "";
         if (Arrays.asList(primeroVAR).contains(actual)) {
             produccion = "<TIPO> ID ; <VAR>";
         }
-        if (produccion.equals("")) {
-            // No haces nada
-        }
         if (!produccion.equals("")) {
             String[] arregloProd = produccion.split(" ");
             for (String i : arregloProd) {
-            prueba = obtenerActualReal();
                 if (Arrays.asList(noTerminales).contains(i)) {
                     detectarNoTerminal(i);
-                } else if (i.equals(obtenerActualReal())) {
+                } else if (i.equals(obtenerActual())) {
                     avanzar();
                 } else {
                     pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Declaracion de Variable.");
@@ -139,7 +121,6 @@ public class Sintaxis {
         }
     }
 
-
     public void TIPO() {
         Object actual = obtenerActual();
         String produccion = "";
@@ -147,14 +128,13 @@ public class Sintaxis {
             produccion = (String) actual;
         }
         if (produccion.equals("")) {
-         pilaErrores.add("Error Sintactico se Esperaba: entero o cadena");
-        }
-        if (!produccion.equals("")) {
+            pilaErrores.add("Error Sintactico se Esperaba: entero o cadena");
+        } else {
             if (Arrays.asList(noTerminales).contains(produccion)) {
                 detectarNoTerminal(produccion);
             } else if (produccion.equals(obtenerActual())) {
-                tablaDeclaraciones.add(obtenerSiguienteReal());
-                tablaTipos.add(produccion + " " + obtenerSiguienteReal());
+                tablaDeclaraciones.add(obtenerSiguiente());
+                tablaTipos.add(produccion + " " + obtenerSiguiente());
                 avanzar();
             } else {
                 pilaErrores.add("Error Sintactico");
@@ -167,10 +147,6 @@ public class Sintaxis {
         String produccion = "";
         if (Arrays.asList(primeroINSTRUCCIONES).contains(actual)) {
             produccion = "<INSTRUCCION> <MINSTRUCCION>";
-        }
-        if (produccion.equals("")) {
-            // avanzar(); -------------------------------------COMENTADO POR ERROR
-            // No haces nada
         }
         if (!produccion.equals("")) {
             String[] arregloProd = produccion.split(" ");
@@ -191,9 +167,6 @@ public class Sintaxis {
         String produccion = "";
         if (Arrays.asList(primeroMINSTRUCCION).contains(actual)) {
             produccion = "<INSTRUCCION> <MINSTRUCCION>";
-        }
-        if (produccion.equals("")) {
-            // No haces nada
         }
         if (!produccion.equals("")) {
             String[] arregloProd = produccion.split(" ");
@@ -238,8 +211,7 @@ public class Sintaxis {
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: entrada o salida o si o sino o para o mientras o ID");
             // No haces nada
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (Arrays.asList(noTerminales).contains(produccion)) {
                 detectarNoTerminal(produccion);
             } else if (produccion.equals(obtenerActual())) {
@@ -351,10 +323,8 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: = o ++ o -- En Asignacion de Variable.");
-            avanzar(); // --------------------------------------------------------------
-            // No haces nada
-        }
-        if (!produccion.equals("")) {
+            avanzar();
+        } else {
             String id = "";
             String[] arregloProd = produccion.split(" ");
             for (String i : arregloProd) {
@@ -362,7 +332,7 @@ public class Sintaxis {
                     detectarNoTerminal(i);
                 } else if (i.equals(obtenerActual())) {
                     if (obtenerActual().equals("ID")) {
-                        id = (String) obtenerActualReal();
+                        id = obtenerActual();
                     }
                     if (obtenerActual().equals("=")) {
                         asignarVar();
@@ -378,15 +348,14 @@ public class Sintaxis {
     }
 
     public void OPR() {
-        Object actual = obtenerActual();
+        String actual = obtenerActual();
         String produccion = "";
         if (Arrays.asList(primeroOPR).contains(actual)) {
-            produccion = (String) actual;
+            produccion = actual;
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: Operador Relacional");
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (Arrays.asList(noTerminales).contains(produccion)) {
                 detectarNoTerminal(produccion);
             } else if (produccion.equals(obtenerActual())) {
@@ -412,8 +381,7 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: * o / o Termino(cadenas o numeros)");
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (produccion.contains("<EXP>")) {
                 String[] arregloProd = produccion.split(" ");
                 for (String i : arregloProd) {
@@ -452,8 +420,7 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: + o - o Termino Negativo o Positivo");
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (produccion.contains("<T>")) {
                 String[] arregloProd = produccion.split(" ");
                 for (String i : arregloProd) {
@@ -489,8 +456,7 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: - o ( o ID o NUM o FL o CAD");
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (produccion.contains("<F>")) {
                 String[] arregloProd = produccion.split(" ");
                 for (String i : arregloProd) {
@@ -532,8 +498,7 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba: ( o ID o NUM o FL o CAD [R]");
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (produccion.contains("<EXP>")) {
                 String[] arregloProd = produccion.split(" ");
                 for (String i : arregloProd) {
@@ -579,8 +544,7 @@ public class Sintaxis {
         }
         if (produccion.equals("")) {
             pilaErrores.add("Error Sintactico Se Esperaba Un Operador Binario");
-        }
-        if (!produccion.equals("")) {
+        } else {
             if (Arrays.asList(noTerminales).contains(produccion)) {
                 detectarNoTerminal(produccion);
             } else if (produccion.equals(obtenerActual())) {

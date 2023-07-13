@@ -36,8 +36,11 @@ public class Semantica {
             String[] reparto = i.split(" ");
             for (String j : tablaTipos) {
                 String[] reparto2 = j.split(" ");
+                if(reparto.length!= 0){
+                    
                 if (reparto[0].equals(reparto2[1]) && !reparto[1].equals("nulo")) {
                     aux.add(reparto2[0] + " " + i);
+                }
                 }
             }
         }
