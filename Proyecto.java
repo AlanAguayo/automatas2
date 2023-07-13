@@ -100,9 +100,9 @@ public class Proyecto {
 
         tablaSimbolos.insertar("", "@", "@", "@");
 
-        // Sintaxis analisisSintactico = new Sintaxis(tablaSimbolos, pilaErrores,
-        // tablaDeclaraciones, tablaTipos);
-        // analisisSintactico.analizarSintaxis();
+        Sintaxis analisisSintactico = new Sintaxis(tablaSimbolos, pilaErrores,
+        tablaDeclaraciones, tablaTipos);
+        analisisSintactico.analizarSintaxis();
         tablaSimbolos.imprimirTabla();
         Semantica analisisSemantico = new Semantica(tablaSimbolos, pilaErrores, tablaDeclaraciones, tablaTipos);
         analisisSemantico.analizar();

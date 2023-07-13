@@ -68,9 +68,9 @@ public class Lexico {
         if (tokens.containsKey(lexema)) {
             tablaSimbolos.insertar("", lexema, tokens.get(lexema), "");
         } else if (esNumero(lexema)) {
-            tablaSimbolos.insertar("", lexema, "numero", "0");
+            tablaSimbolos.insertar("", lexema, "entero", "0");
         } else if (esIdentificador(lexema)) {
-            tablaSimbolos.insertar("var", lexema, "identificador", "nulo");
+            tablaSimbolos.insertar("var", lexema, "ID", "nulo");
         } else if (esFlotante(lexema)) {
             tablaSimbolos.insertar("", lexema, "flotante", "0.0");
         } else if (esCadena(lexema)) {

@@ -59,11 +59,11 @@ public class Sintaxis {
         cad = cad.substring(1);
     }
 
-    public Object obtenerActual() {
+    public String obtenerActual() {
         return tablaSimbolos.getElemento(posicion);
     }
 
-    public Object obtenerActualReal() {
+    public String obtenerActualReal() {
         return tablaSimbolos.getElementoReal(posicion);
     }
 
@@ -77,8 +77,10 @@ public class Sintaxis {
         return null;
     }
 
-    public CharSequence obtenerSiguienteReal() {
-        return tablaSimbolos.getElementoReal(posicion + 1);
+    public String obtenerSiguienteReal() {
+        String cadena = "a"; 
+        return cadena;
+        //return tablaSimbolos.getElementoReal(posicion + 1);
     }
 
     public void avanzar() {
@@ -96,7 +98,7 @@ public class Sintaxis {
             produccion = "<VAR> <INSTRUCCIONES>";
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error De Inicio, Se Esperaba Una Variable o Alguna Instruccion");
+            pilaErrores.add("Error De Inicio, Se Esperaba Una Variable o Alguna Instruccion");
         }
         if (!produccion.equals("")) {
             String[] arregloProd = produccion.split(" ");
@@ -106,13 +108,14 @@ public class Sintaxis {
                 } else if (i.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico");
+                    pilaErrores.add("Error Sintactico");
                 }
             }
         }
     }
 
     public void VAR() {
+        String prueba = "";
         Object actual = obtenerActual();
         String produccion = "";
         if (Arrays.asList(primeroVAR).contains(actual)) {
@@ -124,12 +127,13 @@ public class Sintaxis {
         if (!produccion.equals("")) {
             String[] arregloProd = produccion.split(" ");
             for (String i : arregloProd) {
+            prueba = obtenerActualReal();
                 if (Arrays.asList(noTerminales).contains(i)) {
                     detectarNoTerminal(i);
-                } else if (i.equals(obtenerActual())) {
+                } else if (i.equals(obtenerActualReal())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Declaracion de Variable.");
+                    pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Declaracion de Variable.");
                 }
             }
         }
@@ -143,17 +147,17 @@ public class Sintaxis {
             produccion = (String) actual;
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico se Esperaba: entero o cadena");
+         pilaErrores.add("Error Sintactico se Esperaba: entero o cadena");
         }
         if (!produccion.equals("")) {
             if (Arrays.asList(noTerminales).contains(produccion)) {
                 detectarNoTerminal(produccion);
             } else if (produccion.equals(obtenerActual())) {
-                ((PrintStream) tablaDeclaraciones).append(obtenerSiguienteReal());
-                ((PrintStream) tablaTipos).append(produccion + " " + obtenerSiguienteReal());
+                tablaDeclaraciones.add(obtenerSiguienteReal());
+                tablaTipos.add(produccion + " " + obtenerSiguienteReal());
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico");
+                pilaErrores.add("Error Sintactico");
             }
         }
     }
@@ -176,7 +180,7 @@ public class Sintaxis {
                 } else if (i.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico");
+                    pilaErrores.add("Error Sintactico");
                 }
             }
         }
@@ -199,7 +203,7 @@ public class Sintaxis {
                 } else if (i.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico");
+                    pilaErrores.add("Error Sintactico");
                 }
             }
         }
@@ -232,7 +236,7 @@ public class Sintaxis {
             }
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: entrada o salida o si o sino o para o mientras o ID");
+            pilaErrores.add("Error Sintactico Se Esperaba: entrada o salida o si o sino o para o mientras o ID");
             // No haces nada
         }
         if (!produccion.equals("")) {
@@ -241,7 +245,7 @@ public class Sintaxis {
             } else if (produccion.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico");
+                pilaErrores.add("Error Sintactico");
             }
         }
     }
@@ -255,7 +259,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Instruccion SI.");
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Instruccion SI.");
             }
         }
     }
@@ -269,7 +273,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Instruccion SINO.");
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Instruccion SINO.");
             }
         }
     }
@@ -283,7 +287,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Instruccion PARA.");
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Instruccion PARA.");
             }
         }
     }
@@ -297,7 +301,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Instruccion MIENTRAS.");
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Instruccion MIENTRAS.");
             }
         }
     }
@@ -311,7 +315,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Instruccion ENTRADA.");
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Instruccion ENTRADA.");
             }
         }
     }
@@ -325,7 +329,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Instruccion SALIDA.");
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Instruccion SALIDA.");
             }
         }
     }
@@ -346,7 +350,7 @@ public class Sintaxis {
             }
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: = o ++ o -- En Asignacion de Variable.");
+            pilaErrores.add("Error Sintactico Se Esperaba: = o ++ o -- En Asignacion de Variable.");
             avanzar(); // --------------------------------------------------------------
             // No haces nada
         }
@@ -367,7 +371,7 @@ public class Sintaxis {
                     }
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i + " En Asignacion de Variable.");
+                    pilaErrores.add("Error Sintactico Se Esperaba: " + i + " En Asignacion de Variable.");
                 }
             }
         }
@@ -380,7 +384,7 @@ public class Sintaxis {
             produccion = (String) actual;
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: Operador Relacional");
+            pilaErrores.add("Error Sintactico Se Esperaba: Operador Relacional");
         }
         if (!produccion.equals("")) {
             if (Arrays.asList(noTerminales).contains(produccion)) {
@@ -388,7 +392,7 @@ public class Sintaxis {
             } else if (produccion.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico");
+                pilaErrores.add("Error Sintactico");
             }
         }
     }
@@ -407,7 +411,7 @@ public class Sintaxis {
             }
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: * o / o Termino(cadenas o numeros)");
+            pilaErrores.add("Error Sintactico Se Esperaba: * o / o Termino(cadenas o numeros)");
         }
         if (!produccion.equals("")) {
             if (produccion.contains("<EXP>")) {
@@ -418,7 +422,7 @@ public class Sintaxis {
                     } else if (i.equals(obtenerActual())) {
                         avanzar();
                     } else {
-                        ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i);
+                        pilaErrores.add("Error Sintactico Se Esperaba: " + i);
                     }
                 }
             } else {
@@ -427,7 +431,7 @@ public class Sintaxis {
                 } else if (produccion.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba un Termino");
+                    pilaErrores.add("Error Sintactico Se Esperaba un Termino");
                 }
             }
         }
@@ -447,7 +451,7 @@ public class Sintaxis {
             }
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: + o - o Termino Negativo o Positivo");
+            pilaErrores.add("Error Sintactico Se Esperaba: + o - o Termino Negativo o Positivo");
         }
         if (!produccion.equals("")) {
             if (produccion.contains("<T>")) {
@@ -458,7 +462,7 @@ public class Sintaxis {
                     } else if (i.equals(obtenerActual())) {
                         avanzar();
                     } else {
-                        ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i);
+                        pilaErrores.add("Error Sintactico Se Esperaba: " + i);
                     }
                 }
             } else {
@@ -467,7 +471,7 @@ public class Sintaxis {
                 } else if (produccion.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico");
+                    pilaErrores.add("Error Sintactico");
                 }
             }
         }
@@ -484,7 +488,7 @@ public class Sintaxis {
             }
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: - o ( o ID o NUM o FL o CAD");
+            pilaErrores.add("Error Sintactico Se Esperaba: - o ( o ID o NUM o FL o CAD");
         }
         if (!produccion.equals("")) {
             if (produccion.contains("<F>")) {
@@ -495,7 +499,7 @@ public class Sintaxis {
                     } else if (i.equals(obtenerActual())) {
                         avanzar();
                     } else {
-                        ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i);
+                        pilaErrores.add("Error Sintactico Se Esperaba: " + i);
                     }
                 }
             } else {
@@ -504,7 +508,7 @@ public class Sintaxis {
                 } else if (produccion.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico");
+                    pilaErrores.add("Error Sintactico");
                 }
             }
         }
@@ -527,7 +531,7 @@ public class Sintaxis {
             }
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: ( o ID o NUM o FL o CAD [R]");
+            pilaErrores.add("Error Sintactico Se Esperaba: ( o ID o NUM o FL o CAD [R]");
         }
         if (!produccion.equals("")) {
             if (produccion.contains("<EXP>")) {
@@ -538,7 +542,7 @@ public class Sintaxis {
                     } else if (i.equals(obtenerActual())) {
                         avanzar();
                     } else {
-                        ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i);
+                        pilaErrores.add("Error Sintactico Se Esperaba: " + i);
                     }
                 }
             } else {
@@ -547,7 +551,7 @@ public class Sintaxis {
                 } else if (produccion.equals(obtenerActual())) {
                     avanzar();
                 } else {
-                    ((PrintStream) pilaErrores).append("Error Sintactico");
+                    pilaErrores.add("Error Sintactico");
                 }
             }
         }
@@ -562,7 +566,7 @@ public class Sintaxis {
             } else if (i.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba: " + i);
+                pilaErrores.add("Error Sintactico Se Esperaba: " + i);
             }
         }
     }
@@ -574,7 +578,7 @@ public class Sintaxis {
             produccion = (String) actual;
         }
         if (produccion.equals("")) {
-            ((PrintStream) pilaErrores).append("Error Sintactico Se Esperaba Un Operador Binario");
+            pilaErrores.add("Error Sintactico Se Esperaba Un Operador Binario");
         }
         if (!produccion.equals("")) {
             if (Arrays.asList(noTerminales).contains(produccion)) {
@@ -582,7 +586,7 @@ public class Sintaxis {
             } else if (produccion.equals(obtenerActual())) {
                 avanzar();
             } else {
-                ((PrintStream) pilaErrores).append("Error Sintactico");
+                pilaErrores.add("Error Sintactico");
             }
         }
     }
