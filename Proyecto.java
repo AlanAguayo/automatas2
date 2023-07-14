@@ -11,12 +11,13 @@ public class Proyecto {
         List<String> tablaTipos = new ArrayList<String>();
         List<String> pilaErrores = new ArrayList<String>();
         FileReader fileReader = new FileReader("./Programas/codigo.lin");
-        
+        String[] programa = null;
+
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            
+
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] programa = line.split(" ");
+                programa = line.split(" ");
 
                 int lineas = 0;
 
@@ -100,15 +101,20 @@ public class Proyecto {
 
         tablaSimbolos.insertar("", "@", "@", "@");
 
-        Sintaxis analisisSintactico = new Sintaxis(tablaSimbolos, pilaErrores,
-        tablaDeclaraciones, tablaTipos);
-        analisisSintactico.analizarSintaxis();
-        tablaSimbolos.imprimirTabla();
-        Semantica analisisSemantico = new Semantica(tablaSimbolos, pilaErrores, tablaDeclaraciones, tablaTipos);
-        analisisSemantico.analizar();
+        // Sintaxis analisisSintactico = new Sintaxis(tablaSimbolos, pilaErrores,
+        // tablaDeclaraciones, tablaTipos);
+        // analisisSintactico.analizarSintaxis();
+        //tablaSimbolos.imprimirTabla();
+        //Semantica analisisSemantico = new Semantica(tablaSimbolos, pilaErrores, tablaDeclaraciones, tablaTipos);
+        //analisisSemantico.analizar();
 
-        for (String error : pilaErrores) {
-            System.out.println(error);
+        if (pilaErrores.size() == 0) {
+            Tradutor.ejecutar(programa);
+        } else {
+            for (String error : pilaErrores) {
+                System.out.println(error);
+            }
         }
+
     }
 }
