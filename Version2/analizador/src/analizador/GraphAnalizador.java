@@ -27,15 +27,14 @@ public class GraphAnalizador extends javax.swing.JFrame {
     boolean banderaConst = false;
     boolean banderaError = false;
     boolean banderaFor = false;
-    String tipodatos[] = { "entero", "flotante", "cadena" };
+    String tipoDatos[] = { "entero", "flotante", "cadena" };
     String operadores[] = { "+", "-", "*", "/", "%", "=", "++", "--" };
-    DefaultTableModel modelo, modelo2, modelo3;
-    int numint;
-    boolean valbool;
-    double numdouble;
-    String valStr;
+    DefaultTableModel modelo1, modelo2;
+    int entero;
+    double flotante;
+    String cadena;
     String tipo = "";
-    String fichero = "sources\\codigoBien.txt";
+    String archivo = "sources\\codigoBien.txt";
 
     /*
      * Parte de tripletas
@@ -51,48 +50,47 @@ public class GraphAnalizador extends javax.swing.JFrame {
      * int contTR = 1;
      * int apuntadorFor = 0;
      * int apuntadorForCiclo = 0;
+     * DefaultTableModel modelo3;
      */
 
     public GraphAnalizador() {
         initComponents();
-        modelo = (DefaultTableModel) jTable1.getModel();
+        modelo1 = (DefaultTableModel) jTable1.getModel();
         modelo2 = (DefaultTableModel) jTable2.getModel();
+        /* Parte de tripletas
         modelo3 = (DefaultTableModel) jTable3.getModel();
+        */
 
-        // --Metodo para leer archivo de texto--//
         try {
-            FileInputStream fis = new FileInputStream(fichero);
-            InputStreamReader isr = new InputStreamReader(fis, "utf8");
-            BufferedReader br = new BufferedReader(isr);
-            String lineadetexto;
+            FileInputStream fileInputStream = new FileInputStream(archivo);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "utf8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String lineaCodigo;
             BufferedReader lectura;
             try {
-                lectura = new BufferedReader(new FileReader(fichero));
+                lectura = new BufferedReader(new FileReader(archivo));
                 String codigo;
                 while (lectura.ready()) {
                     codigo = lectura.readLine();
-                    jTextArea1.setText(jTextArea1.getText() + contLineas + ":      " + codigo + "\n");
+                    jTextArea1.setText(jTextArea1.getText() + codigo + "\n");
+                    //jTextArea1.setText(jTextArea1.getText() + contLineas + ":      " + codigo + "\n");
                     contLineas++;
                 }
             } catch (IOException e) {
             }
             contLineas = 0;
 
-            // --Pasa por cada una de las lineas--//
-            while ((lineadetexto = br.readLine()) != null) {
-                lineaActual = lineadetexto;
+            while ((lineaCodigo = bufferedReader.readLine()) != null) {
+                lineaActual = lineaCodigo;
                 contLineas++;
 
-                // --Separa todos los caracteres de la linea--//
                 for (int i = 0; i < lineaActual.length(); i++)
                     lineas[i] = "" + lineaActual.charAt(i);
 
-                // --Cuenta los espacios para saber el numero de tokens--//
                 for (int i = 0; i < lineaActual.length(); i++) {
                     if (" ".equals(lineas[i]))
                         contTokens++;
                 }
-                // --Asigna y libera un espacio a los tokens--//
                 for (int i = 0; i < contTokens; i++)
                     tokens[i] = "";
                 contTokens = 0;
@@ -119,8 +117,8 @@ public class GraphAnalizador extends javax.swing.JFrame {
 
                     // --Revisa si se define una variable con un tipo de dato (int, boolean,
                     // double...)--//
-                    for (int x = 0; (x < tipodatos.length && banderaSimbolo == false); x++) {
-                        if (tokens[i].equals(tipodatos[x])) {
+                    for (int x = 0; (x < tipoDatos.length && banderaSimbolo == false); x++) {
+                        if (tokens[i].equals(tipoDatos[x])) {
                             tablaSimbolos[contSimbolos][0] = "" + contLineas;
                             tablaSimbolos[contSimbolos][1] = tokens[0];
                             tablaSimbolos[contSimbolos][2] = tokens[1];
@@ -139,7 +137,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                                     && banderaError == false) {
 
                                 try {
-                                    numint = Integer.parseInt(tokens[3]);
+                                    entero = Integer.parseInt(tokens[3]);
                                 } catch (NumberFormatException e) {
                                     tablaErrores[contErrores][0] = "" + contLineas;
                                     tablaErrores[contErrores][1] = "Tipo de variable (int) incompatible";
@@ -164,7 +162,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             if ("flotante".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 try {
-                                    numdouble = Double.parseDouble(tokens[3]);
+                                    flotante = Double.parseDouble(tokens[3]);
                                 } catch (NumberFormatException e) {
                                     tablaErrores[contErrores][0] = "" + contLineas;
                                     tablaErrores[contErrores][1] = "Tipo de variable (double) incompatible";
@@ -231,18 +229,18 @@ public class GraphAnalizador extends javax.swing.JFrame {
 
                     // --Ignora constantes--//
                     try {
-                        numint = Integer.parseInt(tokens[i]);
+                        entero = Integer.parseInt(tokens[i]);
                         banderaConst = true;
                     } catch (NumberFormatException e) {
                     }
                     try {
-                        numdouble = Double.parseDouble(tokens[i]);
+                        flotante = Double.parseDouble(tokens[i]);
                         banderaConst = true;
                     } catch (NumberFormatException e) {
                     }
                     if (tokens[i].charAt(0) == '"' && tokens[i].charAt(tokens[i].length() - 1) == '"') {
                         try {
-                            valStr = String.valueOf((tokens[i]));
+                            cadena = String.valueOf((tokens[i]));
                             banderaConst = true;
                         } catch (NumberFormatException e) {
                         }
@@ -299,7 +297,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 tablaErrores[contErrores][1] = "El ciclo FOR no tiene un ENDFOR;";
                 contErrores++;
             }
-            fis.close();
+            fileInputStream.close();
         } catch (IOException e) {
         }
 
@@ -548,10 +546,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
         PanelErrores = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        /*
-         * Parte tripletas
-         * PanelTripletas = new javax.swing.JPanel();
-         */
+        
+          PanelTripletas = new javax.swing.JPanel();
+         
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
 
@@ -694,15 +691,13 @@ public class GraphAnalizador extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addContainerGap()));
-        /*
-         * Parte tripletas
-         * PanelTripletas.setBackground(new java.awt.Color(18, 150, 200));
-         * PanelTripletas.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.
-         * swing.BorderFactory.createEtchedBorder(), "Tripletas",
-         * javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
-         * new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); //
-         * NOI18N
-         */
+        
+          PanelTripletas.setBackground(new java.awt.Color(18, 150, 200));
+          PanelTripletas.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.
+          swing.BorderFactory.createEtchedBorder(), "Tripletas",
+          javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
+          new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); //
+         
         jTable3.setBackground(new java.awt.Color(102, 204, 255));
         jTable3.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -717,29 +712,28 @@ public class GraphAnalizador extends javax.swing.JFrame {
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
-        /*
-         * Parte tripletas
-         * javax.swing.GroupLayout PanelTripletasLayout = new
-         * javax.swing.GroupLayout(PanelTripletas);
-         * PanelTripletas.setLayout(PanelTripletasLayout);
-         * PanelTripletasLayout.setHorizontalGroup(
-         * PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
-         * LEADING)
-         * .addGroup(PanelTripletasLayout.createSequentialGroup()
-         * .addContainerGap()
-         * .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 280,
-         * Short.MAX_VALUE)
-         * .addContainerGap())
-         * );
-         * PanelTripletasLayout.setVerticalGroup(
-         * PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
-         * LEADING)
-         * .addGroup(PanelTripletasLayout.createSequentialGroup()
-         * .addContainerGap()
-         * .addComponent(jScrollPane4)
-         * .addContainerGap())
-         * );
-         */
+        
+          javax.swing.GroupLayout PanelTripletasLayout = new
+          javax.swing.GroupLayout(PanelTripletas);
+          PanelTripletas.setLayout(PanelTripletasLayout);
+          PanelTripletasLayout.setHorizontalGroup(
+          PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
+          LEADING)
+          .addGroup(PanelTripletasLayout.createSequentialGroup()
+          .addContainerGap()
+          .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 280,
+          Short.MAX_VALUE)
+          .addContainerGap())
+         );
+          PanelTripletasLayout.setVerticalGroup(
+          PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
+          LEADING)
+          .addGroup(PanelTripletasLayout.createSequentialGroup()
+          .addContainerGap()
+          .addComponent(jScrollPane4)
+          .addContainerGap())
+          );
+         
 
         javax.swing.GroupLayout PanelGeneralLayout = new javax.swing.GroupLayout(PanelGeneral);
         PanelGeneral.setLayout(PanelGeneralLayout);
@@ -764,11 +758,10 @@ public class GraphAnalizador extends javax.swing.JFrame {
                                 .addComponent(PanelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                /*
-                                 * Parte de las tripletas
-                                 * .addComponent(PanelTripletas, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                 * javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                 */
+                                
+                                 .addComponent(PanelTripletas, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                 javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                 
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         PanelGeneralLayout.setVerticalGroup(
                 PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -791,14 +784,13 @@ public class GraphAnalizador extends javax.swing.JFrame {
                                                         .addComponent(PanelErrores,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                /*
-                                 * Parte de las tripletas
-                                 * 
-                                 * .addComponent(PanelTripletas, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                 * javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                 * 
-                                 * .addContainerGap())
-                                 */)));
+                                
+                                  
+                                  .addComponent(PanelTripletas, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                  javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                  
+                                  .addContainerGap())
+                                 );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -819,13 +811,14 @@ public class GraphAnalizador extends javax.swing.JFrame {
         pack();
     }
 
+    @SuppressWarnings("unchecked")
     private void BtnDesplegarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_BtnDesplegarMouseClicked
-        int filas = modelo.getRowCount();
+        int filas = modelo1.getRowCount();
         for (int i = 1; i <= filas; i++) {
-            modelo.removeRow(0);
+            modelo1.removeRow(0);
         }
         for (int i = 0; i < contSimbolos; i++) {
-            modelo.addRow(new Object[] { tablaSimbolos[i][0], tablaSimbolos[i][1], tablaSimbolos[i][2],
+            modelo1.addRow(new Object[] { tablaSimbolos[i][0], tablaSimbolos[i][1], tablaSimbolos[i][2],
                     tablaSimbolos[i][3], tablaSimbolos[i][4] });
         }
         int filas2 = modelo2.getRowCount();
@@ -835,12 +828,13 @@ public class GraphAnalizador extends javax.swing.JFrame {
         for (int i = 0; i < contErrores; i++) {
             modelo2.addRow(new Object[] { tablaErrores[i][0], tablaErrores[i][1] });
         }
-        int filas3 = modelo3.getRowCount();
-        for (int i = 1; i <= filas3; i++) {
-            modelo3.removeRow(0);
-        }
         /*
          * Parte de tripletas
+         * int filas3 = modelo3.getRowCount();
+         * for (int i = 1; i <= filas3; i++) {
+         * modelo3.removeRow(0);
+         * }
+         * 
          * for (int i = 0; i < contTripletas; i++) {
          * modelo3.addRow(new Object[] { tablatripletas[i][0], tablatripletas[i][1],
          * tablatripletas[i][2],
@@ -883,10 +877,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
     private javax.swing.JPanel PanelErrores;
     private javax.swing.JPanel PanelGeneral;
     private javax.swing.JPanel PanelSimbolos;
-    /*
-     * Parte de las tripletas
-     * private javax.swing.JPanel PanelTripletas;
-     */
+    private javax.swing.JPanel PanelTripletas;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
