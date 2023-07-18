@@ -532,6 +532,8 @@ public class GraphAnalizador extends javax.swing.JFrame {
 
     }
 
+        @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         PanelGeneral = new javax.swing.JPanel();
@@ -546,9 +548,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         PanelErrores = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        
-          PanelTripletas = new javax.swing.JPanel();
-         
+        PanelTripletas = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
 
@@ -561,10 +561,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         PanelGeneral.setBackground(new java.awt.Color(18, 150, 200));
 
         PanelBoton.setBackground(new java.awt.Color(18, 150, 200));
-        PanelBoton.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createEtchedBorder(), "Seleccion de despliegue",
-                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
-                new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelBoton.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Seleccion de despliegue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         BtnDesplegar.setBackground(new java.awt.Color(0, 0, 0));
         BtnDesplegar.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 14)); // NOI18N
@@ -579,33 +576,33 @@ public class GraphAnalizador extends javax.swing.JFrame {
         javax.swing.GroupLayout PanelBotonLayout = new javax.swing.GroupLayout(PanelBoton);
         PanelBoton.setLayout(PanelBotonLayout);
         PanelBotonLayout.setHorizontalGroup(
-                PanelBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotonLayout.createSequentialGroup()
-                                .addContainerGap(294, Short.MAX_VALUE)
-                                .addComponent(BtnDesplegar)
-                                .addGap(303, 303, 303)));
+            PanelBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotonLayout.createSequentialGroup()
+                .addContainerGap(294, Short.MAX_VALUE)
+                .addComponent(BtnDesplegar)
+                .addGap(303, 303, 303))
+        );
         PanelBotonLayout.setVerticalGroup(
-                PanelBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelBotonLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(BtnDesplegar, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                                .addContainerGap()));
+            PanelBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(BtnDesplegar, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         PanelSimbolos.setBackground(new java.awt.Color(18, 150, 200));
-        PanelSimbolos
-                .setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
-                        "Simbolos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
-                        new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelSimbolos.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Simbolos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTable1.setBackground(new java.awt.Color(0, 255, 102));
         jTable1.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Linea", "Tipo de dato", "Variable", "Valor", "IDE"
-                }));
+            },
+            new String [] {
+                "Linea", "Tipo de dato", "Variable", "Valor", "IDE"
+            }
+        ));
         jTable1.setEnabled(false);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
@@ -617,23 +614,22 @@ public class GraphAnalizador extends javax.swing.JFrame {
         javax.swing.GroupLayout PanelSimbolosLayout = new javax.swing.GroupLayout(PanelSimbolos);
         PanelSimbolos.setLayout(PanelSimbolosLayout);
         PanelSimbolosLayout.setHorizontalGroup(
-                PanelSimbolosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelSimbolosLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                                .addContainerGap()));
+            PanelSimbolosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSimbolosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addContainerGap())
+        );
         PanelSimbolosLayout.setVerticalGroup(
-                PanelSimbolosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelSimbolosLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
-                                .addContainerGap()));
+            PanelSimbolosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSimbolosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         PanelCodigo.setBackground(new java.awt.Color(18, 150, 200));
-        PanelCodigo
-                .setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
-                        "Código", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
-                        new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelCodigo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Código", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -642,33 +638,33 @@ public class GraphAnalizador extends javax.swing.JFrame {
         javax.swing.GroupLayout PanelCodigoLayout = new javax.swing.GroupLayout(PanelCodigo);
         PanelCodigo.setLayout(PanelCodigoLayout);
         PanelCodigoLayout.setHorizontalGroup(
-                PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelCodigoLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                                .addContainerGap()));
+            PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCodigoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addContainerGap())
+        );
         PanelCodigoLayout.setVerticalGroup(
-                PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCodigoLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                                .addContainerGap()));
+            PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCodigoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         PanelErrores.setBackground(new java.awt.Color(18, 150, 200));
-        PanelErrores
-                .setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
-                        "Errores", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
-                        new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelErrores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Errores", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTable2.setBackground(new java.awt.Color(255, 51, 51));
         jTable2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Linea", "Error"
-                }));
+            },
+            new String [] {
+                "Linea", "Error"
+            }
+        ));
         jTable2.setEnabled(false);
         jScrollPane3.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
@@ -680,168 +676,135 @@ public class GraphAnalizador extends javax.swing.JFrame {
         javax.swing.GroupLayout PanelErroresLayout = new javax.swing.GroupLayout(PanelErrores);
         PanelErrores.setLayout(PanelErroresLayout);
         PanelErroresLayout.setHorizontalGroup(
-                PanelErroresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelErroresLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                                .addContainerGap()));
+            PanelErroresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelErroresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addContainerGap())
+        );
         PanelErroresLayout.setVerticalGroup(
-                PanelErroresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelErroresLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addContainerGap()));
-        
-          PanelTripletas.setBackground(new java.awt.Color(18, 150, 200));
-          PanelTripletas.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.
-          swing.BorderFactory.createEtchedBorder(), "Tripletas",
-          javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP,
-          new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); //
-         
+            PanelErroresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelErroresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelTripletas.setBackground(new java.awt.Color(18, 150, 200));
+        PanelTripletas.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tripletas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+
         jTable3.setBackground(new java.awt.Color(102, 204, 255));
         jTable3.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "", "Dato Objeto", "Dato Fuente", "Operador"
-                }));
+            },
+            new String [] {
+                "", "Dato Objeto", "Dato Fuente", "Operador"
+            }
+        ));
         jTable3.setEnabled(false);
         jScrollPane4.setViewportView(jTable3);
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
-        
-          javax.swing.GroupLayout PanelTripletasLayout = new
-          javax.swing.GroupLayout(PanelTripletas);
-          PanelTripletas.setLayout(PanelTripletasLayout);
-          PanelTripletasLayout.setHorizontalGroup(
-          PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
-          LEADING)
-          .addGroup(PanelTripletasLayout.createSequentialGroup()
-          .addContainerGap()
-          .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 280,
-          Short.MAX_VALUE)
-          .addContainerGap())
-         );
-          PanelTripletasLayout.setVerticalGroup(
-          PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
-          LEADING)
-          .addGroup(PanelTripletasLayout.createSequentialGroup()
-          .addContainerGap()
-          .addComponent(jScrollPane4)
-          .addContainerGap())
-          );
-         
+
+        javax.swing.GroupLayout PanelTripletasLayout = new javax.swing.GroupLayout(PanelTripletas);
+        PanelTripletas.setLayout(PanelTripletasLayout);
+        PanelTripletasLayout.setHorizontalGroup(
+            PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTripletasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelTripletasLayout.setVerticalGroup(
+            PanelTripletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTripletasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout PanelGeneralLayout = new javax.swing.GroupLayout(PanelGeneral);
         PanelGeneral.setLayout(PanelGeneralLayout);
         PanelGeneralLayout.setHorizontalGroup(
-                PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelGeneralLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(PanelGeneralLayout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(PanelGeneralLayout.createSequentialGroup()
-                                                .addComponent(PanelSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(PanelErrores, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(PanelBoton, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(PanelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                
-                                 .addComponent(PanelTripletas, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                 javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                 
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+            PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelGeneralLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelGeneralLayout.createSequentialGroup()
+                        .addComponent(PanelSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelErrores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PanelBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelTripletas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
         PanelGeneralLayout.setVerticalGroup(
-                PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelGeneralLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(PanelGeneralLayout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(PanelCodigo, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(PanelGeneralLayout.createSequentialGroup()
-                                                .addComponent(PanelBoton, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(PanelGeneralLayout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(PanelSimbolos,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(PanelErrores,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                
-                                  
-                                  .addComponent(PanelTripletas, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                  javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                  
-                                  .addContainerGap())
-                                 );
+            PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelGeneralLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelGeneralLayout.createSequentialGroup()
+                        .addComponent(PanelBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PanelSimbolos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelErrores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(PanelTripletas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(PanelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(PanelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(PanelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(PanelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         pack();
-    }
+    }// </editor-fold>//GEN-END:initComponents
 
-    @SuppressWarnings("unchecked")
-    private void BtnDesplegarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_BtnDesplegarMouseClicked
+    private void BtnDesplegarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnDesplegarMouseClicked
         int filas = modelo1.getRowCount();
         for (int i = 1; i <= filas; i++) {
             modelo1.removeRow(0);
         }
-        for (int i = 0; i < contSimbolos; i++) {
-            modelo1.addRow(new Object[] { tablaSimbolos[i][0], tablaSimbolos[i][1], tablaSimbolos[i][2],
-                    tablaSimbolos[i][3], tablaSimbolos[i][4] });
+        for (int i = 0; i <contSimbolos; i++) {
+            modelo1.addRow(new Object[]{tablaSimbolos[i][0], tablaSimbolos[i][1], tablaSimbolos[i][2],
+                                        tablaSimbolos[i][3], tablaSimbolos[i][4]});
         }
         int filas2 = modelo2.getRowCount();
         for (int i = 1; i <= filas2; i++) {
             modelo2.removeRow(0);
         }
-        for (int i = 0; i < contErrores; i++) {
-            modelo2.addRow(new Object[] { tablaErrores[i][0], tablaErrores[i][1] });
+        for (int i = 0; i <contErrores; i++) {
+            modelo2.addRow(new Object[]{tablaErrores[i][0], tablaErrores[i][1]});
         }
-        /*
-         * Parte de tripletas
-         * int filas3 = modelo3.getRowCount();
-         * for (int i = 1; i <= filas3; i++) {
-         * modelo3.removeRow(0);
-         * }
-         * 
-         * for (int i = 0; i < contTripletas; i++) {
-         * modelo3.addRow(new Object[] { tablatripletas[i][0], tablatripletas[i][1],
-         * tablatripletas[i][2],
-         * tablatripletas[i][3] });
-         * }
-         */
-    }
+        /* 
+        int filas3 = modelo3.getRowCount();
+        for (int i = 1; i <= filas3; i++) {
+            modelo3.removeRow(0);
+        }
+        for (int i = 0; i <conttrip; i++) {
+            modelo3.addRow(new Object[]{tablatripletas[i][0], tablatripletas[i][1], tablatripletas[i][2], tablatripletas[i][3]});
+        }
+        */
+    }//GEN-LAST:event_BtnDesplegarMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -852,17 +815,13 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
+            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
+            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
+            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE,
-                    null, ex);
+            java.util.logging.Logger.getLogger(GraphAnalizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -871,6 +830,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         });
     }
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnDesplegar;
     private javax.swing.JPanel PanelBoton;
     private javax.swing.JPanel PanelCodigo;
@@ -886,4 +846,5 @@ public class GraphAnalizador extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
+    // End of variables declaration//GEN-END:variables
 }
