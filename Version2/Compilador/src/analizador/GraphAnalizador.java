@@ -3,70 +3,45 @@ package analizador;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 public class GraphAnalizador extends javax.swing.JFrame {
 
-    String lineaActual;
-    String[] lineas = new String[100];
-    String[] lineasAux = new String[100];
-    String[] tokens = new String[100];
-    String[] tokensAux = new String[100];
+    public static String lineaActual;
+    public static String[] lineas = new String[100];
+    public static String[] lineasAux = new String[100];
+    public static String[] tokens = new String[100];
+    public static String[] tokensAux = new String[100];
     public static String[][] tablaErrores = new String[100][2];
     public static String[][] tablaSimbolos = new String[100][5];
     public static int contErrores = 0;
     public static int contSimbolos = 0;
-    int contLineas = 1;
-    int contTokens = 1;
-    int contId = 1;
-    boolean banderaSimbolo = false;
-    boolean banderaVar = false;
-    boolean banderaOp = false;
-    boolean banderaConst = false;
-    boolean banderaError = false;
-    boolean banderaFor = false;
-    String tipoDatos[] = { "entero", "flotante", "cadena" };
-    String operadores[] = { "+", "-", "*", "/", "%", "=", "++", "--" };
-    DefaultTableModel modelo1, modelo2;
-    int entero;
-    double flotante;
-    String cadena;
-    String tipo = "";
+    public static int contLineas = 1;
+    public static int contTokens = 1;
+    public static int contId = 1;
+    public static boolean banderaSimbolo = false;
+    public static boolean banderaVar = false;
+    public static boolean banderaOp = false;
+    public static boolean banderaConst = false;
+    public static boolean banderaError = false;
+    public static boolean banderaFor = false;
+    public static String tipoDatos[] = {"entero", "flotante", "cadena"};
+    public static String operadores[] = {"+", "-", "*", "/", "%", "=", "++", "--"};
+    public static DefaultTableModel modelo1, modelo2;
+    public static int entero;
+    public static double flotante;
+    public static String cadena;
+    public static String tipo = "";
     public static String archivo = "sources\\codigoBien.txt";
-
-
-    /*
-     * Parte de tripletas
-     * String[][] tablaopsides = new String[5][2];
-     * String[][] tablaopsrelides = new String[5][2];
-     * String[][] tablatripletas = new String[100][4];
-     * String[] lineasTripletas = new String[100];
-     * int contTokensTripletas = 1;
-     * int contLineaTripletas = 0;
-     * int contTripletas = 0;
-     * int contT = 1;
-     * int contC = 1;
-     * int contTR = 1;
-     * int apuntadorFor = 0;
-     * int apuntadorForCiclo = 0;
-     * DefaultTableModel modelo3;
-     */
 
     public GraphAnalizador() {
         initComponents();
         modelo1 = (DefaultTableModel) jTable1.getModel();
         modelo2 = (DefaultTableModel) jTable2.getModel();
-        /* Parte de tripletas
-        modelo3 = (DefaultTableModel) jTable3.getModel();
-        */
 
         try {
             FileInputStream fileInputStream = new FileInputStream(archivo);
@@ -80,7 +55,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 while (lectura.ready()) {
                     codigo = lectura.readLine();
                     jTextArea1.setText(jTextArea1.getText() + codigo + "\n");
-                    //jTextArea1.setText(jTextArea1.getText() + contLineas + ":      " + codigo + "\n");
                     contLineas++;
                 }
             } catch (IOException e) {
@@ -91,18 +65,20 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 lineaActual = lineaCodigo;
                 contLineas++;
 
-                for (int i = 0; i < lineaActual.length(); i++)
+                for (int i = 0; i < lineaActual.length(); i++) {
                     lineas[i] = "" + lineaActual.charAt(i);
+                }
 
                 for (int i = 0; i < lineaActual.length(); i++) {
-                    if (" ".equals(lineas[i]))
+                    if (" ".equals(lineas[i])) {
                         contTokens++;
+                    }
                 }
-                for (int i = 0; i < contTokens; i++)
+                for (int i = 0; i < contTokens; i++) {
                     tokens[i] = "";
+                }
                 contTokens = 0;
 
-                // --Agrega los tokens al arreglo--//
                 for (int i = 0; i < lineaActual.length(); i++) {
                     if (!" ".equals(lineas[i])) {
                         if (";".equals(lineas[i + 1])) {
@@ -110,80 +86,61 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             contTokens++;
                             tokens[contTokens] = "" + lineas[i + 1];
                             i++;
-                        } else
+                        } else {
                             tokens[contTokens] = "" + tokens[contTokens] + lineas[i];
-                    } else
+                        }
+                    } else {
                         contTokens++;
+                    }
                 }
 
-                // --Recorre cada token--//
                 for (int i = 0; (i < contTokens + 1 && !";".equals(tokens[i])); i++) {
                     banderaVar = false;
                     banderaOp = false;
                     banderaConst = false;
 
-                    // --Revisa si se define una variable con un tipo de dato (int, boolean,
-                    // double...)--//
                     for (int x = 0; (x < tipoDatos.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(tipoDatos[x])) {
                             tablaSimbolos[contSimbolos][0] = "" + contLineas;
                             tablaSimbolos[contSimbolos][1] = tokens[0];
                             tablaSimbolos[contSimbolos][2] = tokens[1];
-                            if (!";".equals(tokens[2]))
+                            if (!";".equals(tokens[2])) {
                                 tablaSimbolos[contSimbolos][3] = tokens[3];
-                            tablaSimbolos[contSimbolos][4] = "IDE0" + contId;
+                            }
+                            tablaSimbolos[contSimbolos][4] = "ID" + contId;
                             contId++;
                             contSimbolos++;
                             banderaSimbolo = true;
                         }
 
-                        // --Detecta que los tipos de datos sean compatibles--//
-                        // --Deteccion de enteros--//
                         if (!";".equals(tokens[2])) {
-                            if ("entero".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
+                            if ("entero".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
 
                                 try {
                                     entero = Integer.parseInt(tokens[3]);
                                 } catch (NumberFormatException e) {
                                     tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (int) incompatible";
+                                    tablaErrores[contErrores][1] = "Tipo de variable entero incompatible";
                                     contErrores++;
                                     banderaError = true;
                                 }
 
-                            } else
-
-                            // --Deteccion de booleanos--//
-                            if ("boolean".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
-                                    && banderaError == false) {
-                                if (!"true".equals(tokens[3]) && !"false".equals(tokens[3])) {
-                                    tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (boolean) incompatible";
-                                    contErrores++;
-                                    banderaError = true;
-                                }
-                            } else
-
-                            // --Deteccion de decimales--//
-                            if ("flotante".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
+                            } else if ("flotante".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 try {
                                     flotante = Double.parseDouble(tokens[3]);
                                 } catch (NumberFormatException e) {
                                     tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (double) incompatible";
+                                    tablaErrores[contErrores][1] = "Tipo de variable flotante incompatible";
                                     contErrores++;
                                     banderaError = true;
                                 }
-                            } else
-
-                            // --Deteccion de Strings--//
-                            if ("cadena".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
+                            } else if ("cadena".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 if (tokens[3].charAt(0) != '"' || tokens[3].charAt(tokens[3].length() - 1) != '"') {
                                     tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (String) incompatible o mal definida";
+                                    tablaErrores[contErrores][1] = "Tipo de variable cadena incompatible";
                                     contErrores++;
                                     banderaError = true;
                                 }
@@ -191,20 +148,17 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 
-                    // --Revision y correccion del ciclo FOR--//
                     if ("para".equalsIgnoreCase(tokens[0])) {
                         banderaFor = true;
                         if (tokens[1].charAt(0) != '(') {
                             tablaErrores[contErrores][0] = "" + contLineas;
                             tablaErrores[contErrores][1] = "No se ha abierto el parentesis para el ciclo para";
                             contErrores++;
-                        } else {
-                            if (!";".equals(tokens[6]) || !";".equals(tokens[10])) {
-                                tablaErrores[contErrores][0] = "" + contLineas;
-                                tablaErrores[contErrores][1] = "Falta el ';' del separador del ciclo para";
-                                contErrores++;
-                                banderaError = true;
-                            }
+                        } else if (!";".equals(tokens[6]) || !";".equals(tokens[10])) {
+                            tablaErrores[contErrores][0] = "" + contLineas;
+                            tablaErrores[contErrores][1] = "Falta el ';' del separador del ciclo para";
+                            contErrores++;
+                            banderaError = true;
                         }
                         if (tokens[contTokens].charAt(tokens[contTokens].length() - 1) != ')') {
                             tablaErrores[contErrores][0] = "" + contLineas;
@@ -218,23 +172,23 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             tablaErrores[contErrores][0] = "" + contLineas;
                             tablaErrores[contErrores][1] = "No se ha abierto el ciclo para";
                             contErrores++;
-                        } else
+                        } else {
                             banderaFor = false;
+                        }
                     }
 
-                    // --Revisa si existe alguna variable--//
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
-                        if (tokens[i].equals(tablaSimbolos[x][2]))
+                        if (tokens[i].equals(tablaSimbolos[x][2])) {
                             banderaVar = true;
+                        }
                     }
 
-                    // --Ignora operadores--//
                     for (int x = 0; (x < operadores.length && banderaSimbolo == false); x++) {
-                        if (tokens[i].equals(operadores[x]))
+                        if (tokens[i].equals(operadores[x])) {
                             banderaOp = true;
+                        }
                     }
 
-                    // --Ignora constantes--//
                     try {
                         entero = Integer.parseInt(tokens[i]);
                         banderaConst = true;
@@ -253,8 +207,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 
-                    // --Checa los tokens excluidos--//
-                    if (banderaSimbolo == false && !"FOR".equals(tokens[0]) && !"ENDFOR".equals(tokens[0])) {
+                    if (banderaSimbolo == false && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                         if (banderaVar == false && banderaOp == false && banderaConst == false) {
                             tablaErrores[contErrores][0] = "" + contLineas;
                             tablaErrores[contErrores][1] = "Variable " + tokens[i] + " no encontrada";
@@ -263,7 +216,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 
-                    // --Deteccion de tipos incompatibles--//
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(tablaSimbolos[x][2])) {
                             if (!"".equals(tipo) && !tablaSimbolos[x][1].equals(tipo)) {
@@ -277,20 +229,11 @@ public class GraphAnalizador extends javax.swing.JFrame {
                     }
                 }
 
-                // --Revisa error si termina con ;--//
-                if (!";".equals(tokens[contTokens]) && !"FOR".equals(tokens[0]) && !"ENDFOR".equals(tokens[0])) {
+                if (!";".equals(tokens[contTokens]) && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                     tablaErrores[contErrores][0] = "" + contLineas;
                     tablaErrores[contErrores][1] = "Hace falta ;";
                     contErrores++;
                 }
-
-                /*
-                 * Parte de las tripletas
-                 * if (banderaerror == false) {
-                 * lineasTripletas[contLineaTripletas] = lineaActual;
-                 * contLineaTripletas++;
-                 * }
-                 */
 
                 banderaSimbolo = false;
                 banderaVar = false;
@@ -299,246 +242,51 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 banderaError = false;
                 tipo = "";
             }
+
+            imprimirLineas();
+            
             if (banderaFor == true) {
                 tablaErrores[contErrores][0] = "" + contLineas;
-                tablaErrores[contErrores][1] = "El ciclo FOR no tiene un ENDFOR;";
+                tablaErrores[contErrores][1] = "El ciclo para no tiene un fin;";
                 contErrores++;
             }
             fileInputStream.close();
         } catch (IOException e) {
         }
 
-        /*
-         * Parte de tripletas
-         * tablaopsides[0][0] = "+";
-         * tablaopsides[0][1] = "OPA01";
-         * tablaopsides[1][0] = "-";
-         * tablaopsides[1][1] = "OPA02";
-         * tablaopsides[2][0] = "*";
-         * tablaopsides[2][1] = "OPA03";
-         * tablaopsides[3][0] = "/";
-         * tablaopsides[3][1] = "OPA04";
-         * tablaopsides[4][0] = "%";
-         * tablaopsides[4][1] = "OPA05";
-         * 
-         * tablaopsrelides[0][0] = "=";
-         * tablaopsrelides[0][1] = "OPR01";
-         * tablaopsrelides[1][0] = "<";
-         * tablaopsrelides[1][1] = "OPR02";
-         * tablaopsrelides[2][0] = ">";
-         * tablaopsrelides[2][1] = "OPR03";
-         * tablaopsrelides[3][0] = "<=";
-         * tablaopsrelides[3][1] = "OPR04";
-         * tablaopsrelides[4][0] = ">=";
-         * tablaopsrelides[4][1] = "OPR05";
-         * 
-         * for (int x = 0; x < contLineaTripletas; x++) {
-         * System.out.println(lineasTripletas[x]);
-         * //--Separa todos los caracteres de la linea--//
-         * for (int i = 0; i < lineasTripletas[x].length(); i++) lineasAux[i] = "" +
-         * lineasTripletas[x].charAt(i);
-         * //--Cuenta los espacios para saber el numero de tokens--//
-         * for (int i = 0; i < lineasTripletas[x].length(); i++) {
-         * if (" ".equals(lineasAux[i])) contTokensTripletas++;
-         * }
-         * //--Asigna y libera un espacio a los tokens--//
-         * for (int i = 0; i < contTokensTripletas; i++) tokensAux[i] = "";
-         * contTokensTripletas = 0;
-         * //--Agrega los tokens al arreglo--//
-         * for (int i = 0; i < lineasTripletas[x].length(); i++) {
-         * if (!" ".equals(lineasAux[i])) {
-         * if (";".equals(lineasAux[i+1])) {
-         * tokensAux[contTokensTripletas] = "" + tokensAux[contTokensTripletas] +
-         * lineasAux[i];
-         * contTokensTripletas++;
-         * tokensAux[contTokensTripletas] = "" + lineasAux[i+1];
-         * i++;
-         * } else tokensAux[contTokensTripletas] = "" + tokensAux[contTokensTripletas] +
-         * lineasAux[i];
-         * } else contTokensTripletas++;
-         * }
-         * //--Recorre cada token de las tripletas--//
-         * for (int i = 0; (i < contTokensTripletas+1 && !";".equals(tokensAux[i]));
-         * i++) {
-         * for (String tipodato : tipodatos) {
-         * if (tokensAux[0].equals(tipodato)) {
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "T" + contT;
-         * tablatripletas[contTripletas][2] = "CE" + contC;
-         * tablatripletas[contTripletas][3] = "=";
-         * tablatripletas[contTripletas+1][0] = "" + (contTripletas + 1);
-         * for (String[] tablasimbolo : tablaSimbolos) {
-         * if (tokensAux[1].equals(tablasimbolo[2])) {
-         * tablatripletas[contTripletas+1][1] = tablasimbolo[4];
-         * }
-         * }
-         * tablatripletas[contTripletas+1][2] = "T" + contT;
-         * tablatripletas[contTripletas+1][3] = "OPR01";
-         * for (String[] tablaopsrelide : tablaopsrelides) {
-         * if (tokensAux[2].equals(tablaopsrelide[0])) {
-         * tablatripletas[contTripletas+1][3] = tablaopsrelide[1];
-         * }
-         * }
-         * contT++;
-         * contC++;
-         * contTripletas++;contTripletas++;
-         * i = contTokensTripletas+1;
-         * }
-         * }
-         * 
-         * if (";".equals(tokensAux[3])) {
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "T" + contT;
-         * for (String[] tablasimbolo : tablaSimbolos) {
-         * if (tokensAux[2].equals(tablasimbolo[2])) {
-         * tablatripletas[contTripletas][2] = tablasimbolo[4];
-         * }
-         * }
-         * if ("".equals(tablatripletas[contTripletas][2]) ||
-         * tablatripletas[contTripletas][2] ==
-         * null) {
-         * tablatripletas[contTripletas][2] = "CE" + contC;
-         * contC++;
-         * }
-         * tablatripletas[contTripletas][3] = "=";
-         * tablatripletas[contTripletas+1][0] = "" + (contTripletas + 1);
-         * for (String[] tablasimbolo : tablaSimbolos) {
-         * if (tokensAux[0].equals(tablasimbolo[2])) {
-         * tablatripletas[contTripletas+1][1] = tablasimbolo[4];
-         * }
-         * }
-         * tablatripletas[contTripletas+1][2] = tablatripletas[contTripletas][1];
-         * tablatripletas[contTripletas+1][3] = tablaopsrelides[0][1];
-         * contT++;
-         * contTripletas++;contTripletas++;
-         * i = contTokensTripletas+1;
-         * }
-         * 
-         * if (";".equals(tokensAux[5])) {
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "T" + contT;
-         * for (String[] tablasimbolo : tablaSimbolos) {
-         * if (tokensAux[2].equals(tablasimbolo[2])) {
-         * tablatripletas[contTripletas][2] = tablasimbolo[4];
-         * }
-         * }
-         * if ("".equals(tablatripletas[contTripletas][2]) ||
-         * tablatripletas[contTripletas][2] ==
-         * null) {
-         * tablatripletas[contTripletas][2] = "CE" + contC;
-         * contC++;
-         * }
-         * tablatripletas[contTripletas][3] = "=";
-         * if ((("+".equals(tokensAux[3]) || "-".equals(tokensAux[3])) &&
-         * "0".equals(tokensAux[4])) ||
-         * (("*".equals(tokensAux[3]) || "/".equals(tokensAux[3])) &&
-         * "1".equals(tokensAux[4]))) {
-         * } else {
-         * tablatripletas[contTripletas+1][0] = "" + (contTripletas + 1);
-         * tablatripletas[contTripletas+1][1] = tablatripletas[contTripletas][1];
-         * for (String[] tablasimbolo : tablaSimbolos) {
-         * if (tokensAux[4].equals(tablasimbolo[2])) {
-         * tablatripletas[contTripletas+1][2] = tablasimbolo[4];
-         * }
-         * }
-         * if ("".equals(tablatripletas[contTripletas+1][2]) ||
-         * tablatripletas[contTripletas+1][2]
-         * == null) {
-         * tablatripletas[contTripletas+1][2] = "CE" + contC;
-         * contC++;
-         * }
-         * for (String[] tablaopside : tablaopsides) {
-         * if (tokensAux[3].equals(tablaopside[0])) {
-         * tablatripletas[contTripletas+1][3] = tablaopside[1];
-         * }
-         * }
-         * tablatripletas[contTripletas+2][0] = "" + (contTripletas + 2);
-         * for (String[] tablasimbolo : tablaSimbolos) {
-         * if (tokensAux[0].equals(tablasimbolo[2])) {
-         * tablatripletas[contTripletas+2][1] = tablasimbolo[4];
-         * }
-         * }
-         * tablatripletas[contTripletas+2][2] = tablatripletas[contTripletas][1];
-         * tablatripletas[contTripletas+2][3] = tablaopsrelides[0][1];
-         * contT++;
-         * contTripletas++;contTripletas++;contTripletas++;
-         * i = contTokensTripletas+1;
-         * }
-         * }
-         * if ("FOR".equals(tokensAux[0])) {
-         * apuntadorForCiclo = contTripletas;
-         * for (String tipodato : tipodatos) {
-         * if (tokensAux[2].equals(tipodato)) {
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "T" + contT;
-         * tablatripletas[contTripletas][2] = "CE" + contC;
-         * tablatripletas[contTripletas][3] = "=";
-         * tablatripletas[contTripletas+1][0] = "" + (contTripletas + 1);
-         * tablatripletas[contTripletas+1][1] = "IDETEMP";
-         * tablatripletas[contTripletas+1][2] = "T" + contT;
-         * tablatripletas[contTripletas+1][3] = "OPR01";
-         * for (String[] tablaopsrelide : tablaopsrelides) {
-         * if (tokensAux[4].equals(tablaopsrelide[0])) {
-         * tablatripletas[contTripletas+1][3] = tablaopsrelide[1];
-         * }
-         * }
-         * contT++;
-         * contC++;
-         * contTripletas++;contTripletas++;
-         * i = contTokensTripletas+1;
-         * }
-         * }
-         * 
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "T" + contT;
-         * tablatripletas[contTripletas][2] = "CE" + contC;
-         * tablatripletas[contTripletas][3] = "=";
-         * contC++;
-         * contT++;
-         * contTripletas++;
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "T" + (contT);
-         * tablatripletas[contTripletas][2] = "T" + (contT-1);
-         * for (String[] tablaopsrelide : tablaopsrelides) {
-         * if (tokensAux[8].equals(tablaopsrelide[0])) {
-         * tablatripletas[contTripletas][3] = tablaopsrelide[1];
-         * }
-         * }
-         * contT++;
-         * contC++;
-         * contTripletas++;
-         * 
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "TR" + (contTR);
-         * tablatripletas[contTripletas][2] = "TRUE";
-         * tablatripletas[contTripletas][3] = "" + (contTripletas + 2);
-         * contTripletas++;
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "TR" + (contTR);
-         * tablatripletas[contTripletas][2] = "FALSE";
-         * apuntadorfor = contTripletas;
-         * contTripletas++;
-         * contTR++;
-         * 
-         * }
-         * if ("ENDFOR".equals(tokensAux[0])) {
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = tablatripletas[apuntadorFor - 5][1];
-         * tablatripletas[contTripletas][2] = tablatripletas[apuntadorFor - 5][2];
-         * tablatripletas[contTripletas][3] = "OPA01";
-         * contTripletas++;
-         * tablatripletas[contTripletas][0] = "" + (contTripletas);
-         * tablatripletas[contTripletas][1] = "JP";
-         * tablatripletas[contTripletas][3] = "" + (apuntadorForCiclo + 1);
-         * tablatripletas[apuntadorfor][3] = "" + (contTripletas);
-         * contTripletas++;
-         * }
-         * }
-         * }
-         */
-
     }
-    public void Abrir(){
+    public void imprimirLineas(){    
+            String[] separacion = jTextArea1.getText().split("\n");
+            String lineas = "";
+            
+            for(int i=1; i<separacion.length+1; i++){
+                lineas += i+"\n";
+            }
+            this.jTextArea2.setText(lineas);
+    }
+
+    public void limpiar() {
+        lineas = new String[100];
+        lineasAux = new String[100];
+        tokens = new String[100];
+        tokensAux = new String[100];
+        tablaErrores = new String[100][2];
+        tablaSimbolos = new String[100][5];
+        contErrores = 0;
+        contSimbolos = 0;
+        contLineas = 1;
+        contTokens = 1;
+        contId = 1;
+        banderaSimbolo = false;
+        banderaVar = false;
+        banderaOp = false;
+        banderaConst = false;
+        banderaError = false;
+        banderaFor = false;
+        tipo = "";
+    }
+
+    public void Abrir() {
         try {
             FileInputStream fileInputStream = new FileInputStream(archivo);
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "utf8");
@@ -551,7 +299,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 while (lectura.ready()) {
                     codigo = lectura.readLine();
                     jTextArea1.setText(jTextArea1.getText() + codigo + "\n");
-                    //jTextArea1.setText(jTextArea1.getText() + contLineas + ":      " + codigo + "\n");
                     contLineas++;
                 }
             } catch (IOException e) {
@@ -562,18 +309,20 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 lineaActual = lineaCodigo;
                 contLineas++;
 
-                for (int i = 0; i < lineaActual.length(); i++)
+                for (int i = 0; i < lineaActual.length(); i++) {
                     lineas[i] = "" + lineaActual.charAt(i);
+                }
 
                 for (int i = 0; i < lineaActual.length(); i++) {
-                    if (" ".equals(lineas[i]))
+                    if (" ".equals(lineas[i])) {
                         contTokens++;
+                    }
                 }
-                for (int i = 0; i < contTokens; i++)
+                for (int i = 0; i < contTokens; i++) {
                     tokens[i] = "";
+                }
                 contTokens = 0;
 
-                // --Agrega los tokens al arreglo--//
                 for (int i = 0; i < lineaActual.length(); i++) {
                     if (!" ".equals(lineas[i])) {
                         if (";".equals(lineas[i + 1])) {
@@ -581,80 +330,61 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             contTokens++;
                             tokens[contTokens] = "" + lineas[i + 1];
                             i++;
-                        } else
+                        } else {
                             tokens[contTokens] = "" + tokens[contTokens] + lineas[i];
-                    } else
+                        }
+                    } else {
                         contTokens++;
+                    }
                 }
 
-                // --Recorre cada token--//
                 for (int i = 0; (i < contTokens + 1 && !";".equals(tokens[i])); i++) {
                     banderaVar = false;
                     banderaOp = false;
                     banderaConst = false;
 
-                    // --Revisa si se define una variable con un tipo de dato (int, boolean,
-                    // double...)--//
                     for (int x = 0; (x < tipoDatos.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(tipoDatos[x])) {
                             tablaSimbolos[contSimbolos][0] = "" + contLineas;
                             tablaSimbolos[contSimbolos][1] = tokens[0];
                             tablaSimbolos[contSimbolos][2] = tokens[1];
-                            if (!";".equals(tokens[2]))
+                            if (!";".equals(tokens[2])) {
                                 tablaSimbolos[contSimbolos][3] = tokens[3];
-                            tablaSimbolos[contSimbolos][4] = "IDE0" + contId;
+                            }
+                            tablaSimbolos[contSimbolos][4] = "ID" + contId;
                             contId++;
                             contSimbolos++;
                             banderaSimbolo = true;
                         }
 
-                        // --Detecta que los tipos de datos sean compatibles--//
-                        // --Deteccion de enteros--//
                         if (!";".equals(tokens[2])) {
-                            if ("entero".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
+                            if ("entero".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
 
                                 try {
                                     entero = Integer.parseInt(tokens[3]);
                                 } catch (NumberFormatException e) {
                                     tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (int) incompatible";
+                                    tablaErrores[contErrores][1] = "Tipo de variable entero incompatible";
                                     contErrores++;
                                     banderaError = true;
                                 }
 
-                            } else
-
-                            // --Deteccion de booleanos--//
-                            if ("boolean".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
-                                    && banderaError == false) {
-                                if (!"true".equals(tokens[3]) && !"false".equals(tokens[3])) {
-                                    tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (boolean) incompatible";
-                                    contErrores++;
-                                    banderaError = true;
-                                }
-                            } else
-
-                            // --Deteccion de decimales--//
-                            if ("flotante".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
+                            } else if ("flotante".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 try {
                                     flotante = Double.parseDouble(tokens[3]);
                                 } catch (NumberFormatException e) {
                                     tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (double) incompatible";
+                                    tablaErrores[contErrores][1] = "Tipo de variable flotante incompatible";
                                     contErrores++;
                                     banderaError = true;
                                 }
-                            } else
-
-                            // --Deteccion de Strings--//
-                            if ("cadena".equals(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
+                            } else if ("cadena".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 if (tokens[3].charAt(0) != '"' || tokens[3].charAt(tokens[3].length() - 1) != '"') {
                                     tablaErrores[contErrores][0] = "" + contLineas;
-                                    tablaErrores[contErrores][1] = "Tipo de variable (String) incompatible o mal definida";
+                                    tablaErrores[contErrores][1] = "Tipo de variable cadena incompatible";
                                     contErrores++;
                                     banderaError = true;
                                 }
@@ -662,20 +392,17 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 
-                    // --Revision y correccion del ciclo FOR--//
                     if ("para".equalsIgnoreCase(tokens[0])) {
                         banderaFor = true;
                         if (tokens[1].charAt(0) != '(') {
                             tablaErrores[contErrores][0] = "" + contLineas;
                             tablaErrores[contErrores][1] = "No se ha abierto el parentesis para el ciclo para";
                             contErrores++;
-                        } else {
-                            if (!";".equals(tokens[6]) || !";".equals(tokens[10])) {
-                                tablaErrores[contErrores][0] = "" + contLineas;
-                                tablaErrores[contErrores][1] = "Falta el ';' del separador del ciclo para";
-                                contErrores++;
-                                banderaError = true;
-                            }
+                        } else if (!";".equals(tokens[6]) || !";".equals(tokens[10])) {
+                            tablaErrores[contErrores][0] = "" + contLineas;
+                            tablaErrores[contErrores][1] = "Falta el ';' del separador del ciclo para";
+                            contErrores++;
+                            banderaError = true;
                         }
                         if (tokens[contTokens].charAt(tokens[contTokens].length() - 1) != ')') {
                             tablaErrores[contErrores][0] = "" + contLineas;
@@ -689,23 +416,23 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             tablaErrores[contErrores][0] = "" + contLineas;
                             tablaErrores[contErrores][1] = "No se ha abierto el ciclo para";
                             contErrores++;
-                        } else
+                        } else {
                             banderaFor = false;
+                        }
                     }
 
-                    // --Revisa si existe alguna variable--//
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
-                        if (tokens[i].equals(tablaSimbolos[x][2]))
+                        if (tokens[i].equals(tablaSimbolos[x][2])) {
                             banderaVar = true;
+                        }
                     }
 
-                    // --Ignora operadores--//
                     for (int x = 0; (x < operadores.length && banderaSimbolo == false); x++) {
-                        if (tokens[i].equals(operadores[x]))
+                        if (tokens[i].equals(operadores[x])) {
                             banderaOp = true;
+                        }
                     }
 
-                    // --Ignora constantes--//
                     try {
                         entero = Integer.parseInt(tokens[i]);
                         banderaConst = true;
@@ -724,8 +451,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 
-                    // --Checa los tokens excluidos--//
-                    if (banderaSimbolo == false && !"FOR".equals(tokens[0]) && !"ENDFOR".equals(tokens[0])) {
+                    if (banderaSimbolo == false && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                         if (banderaVar == false && banderaOp == false && banderaConst == false) {
                             tablaErrores[contErrores][0] = "" + contLineas;
                             tablaErrores[contErrores][1] = "Variable " + tokens[i] + " no encontrada";
@@ -734,7 +460,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 
-                    // --Deteccion de tipos incompatibles--//
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(tablaSimbolos[x][2])) {
                             if (!"".equals(tipo) && !tablaSimbolos[x][1].equals(tipo)) {
@@ -748,20 +473,11 @@ public class GraphAnalizador extends javax.swing.JFrame {
                     }
                 }
 
-                // --Revisa error si termina con ;--//
-                if (!";".equals(tokens[contTokens]) && !"FOR".equals(tokens[0]) && !"ENDFOR".equals(tokens[0])) {
+                if (!";".equals(tokens[contTokens]) && !"para".equals(tokens[0]) && !"finpara".equals(tokens[0])) {
                     tablaErrores[contErrores][0] = "" + contLineas;
                     tablaErrores[contErrores][1] = "Hace falta ;";
                     contErrores++;
                 }
-
-                /*
-                 * Parte de las tripletas
-                 * if (banderaerror == false) {
-                 * lineasTripletas[contLineaTripletas] = lineaActual;
-                 * contLineaTripletas++;
-                 * }
-                 */
 
                 banderaSimbolo = false;
                 banderaVar = false;
@@ -772,7 +488,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
             }
             if (banderaFor == true) {
                 tablaErrores[contErrores][0] = "" + contLineas;
-                tablaErrores[contErrores][1] = "El ciclo FOR no tiene un ENDFOR;";
+                tablaErrores[contErrores][1] = "El ciclo para no tiene un fin;";
                 contErrores++;
             }
             fileInputStream.close();
@@ -780,7 +496,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         }
     }
 
-        @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -795,6 +511,8 @@ public class GraphAnalizador extends javax.swing.JFrame {
         PanelCodigo = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         PanelErrores = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -808,7 +526,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         PanelGeneral.setBackground(new java.awt.Color(153, 153, 153));
 
         PanelBoton.setBackground(new java.awt.Color(153, 153, 153));
-        PanelBoton.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Seleccion de despliegue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelBoton.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Seleccion de despliegue", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         BtnCompilar.setBackground(new java.awt.Color(0, 0, 0));
         BtnCompilar.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 14)); // NOI18N
@@ -890,7 +608,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         );
 
         PanelSimbolos.setBackground(new java.awt.Color(153, 153, 153));
-        PanelSimbolos.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Simbolos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelSimbolos.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Simbolos", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTable1.setBackground(new java.awt.Color(204, 204, 204));
         jTable1.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
@@ -923,16 +641,27 @@ public class GraphAnalizador extends javax.swing.JFrame {
             PanelSimbolosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSimbolosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         PanelCodigo.setBackground(new java.awt.Color(153, 153, 153));
-        PanelCodigo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Código", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelCodigo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Código", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextArea1KeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTextArea1);
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jTextArea2.setPreferredSize(new java.awt.Dimension(50, 50));
+        jScrollPane4.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout PanelCodigoLayout = new javax.swing.GroupLayout(PanelCodigo);
         PanelCodigo.setLayout(PanelCodigoLayout);
@@ -940,19 +669,23 @@ public class GraphAnalizador extends javax.swing.JFrame {
             PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelCodigoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelCodigoLayout.setVerticalGroup(
             PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCodigoLayout.createSequentialGroup()
+            .addGroup(PanelCodigoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addGroup(PanelCodigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4))
                 .addContainerGap())
         );
 
         PanelErrores.setBackground(new java.awt.Color(153, 153, 153));
-        PanelErrores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Errores", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelErrores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Errores", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTable2.setBackground(new java.awt.Color(255, 51, 51));
         jTable2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
@@ -1045,7 +778,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         for (int i = 1; i <= filas; i++) {
             modelo1.removeRow(0);
         }
-        for (int i = 0; i <contSimbolos; i++) {
+        for (int i = 0; i < contSimbolos; i++) {
             modelo1.addRow(new Object[]{tablaSimbolos[i][0], tablaSimbolos[i][1], tablaSimbolos[i][2],
                 tablaSimbolos[i][3], tablaSimbolos[i][4]});
         }
@@ -1053,7 +786,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         for (int i = 1; i <= filas2; i++) {
             modelo2.removeRow(0);
         }
-        for (int i = 0; i <contErrores; i++) {
+        for (int i = 0; i < contErrores; i++) {
             modelo2.addRow(new Object[]{tablaErrores[i][0], tablaErrores[i][1]});
         }
         /*
@@ -1064,7 +797,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         for (int i = 0; i <conttrip; i++) {
             modelo3.addRow(new Object[]{tablatripletas[i][0], tablatripletas[i][1], tablatripletas[i][2], tablatripletas[i][3]});
         }
-        */
+         */
     }//GEN-LAST:event_BtnCompilarMouseClicked
 
     private void BtnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAbrirMouseClicked
@@ -1079,13 +812,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
         JFileChooser jf = new JFileChooser();
         jf.showOpenDialog(this);
         File archivo = jf.getSelectedFile();
-        if(archivo != null){
-            this.jTextArea1.setText("");
+        if (archivo != null) {
             GraphAnalizador.archivo = archivo.getAbsolutePath();
-            tablaErrores=new String[100][2];
-            tablaSimbolos=new String[100][5];
-            contErrores=0;
-            contSimbolos=0;
+            limpiar();
             Abrir();
         }
     }//GEN-LAST:event_BtnAbrirActionPerformed
@@ -1097,6 +826,10 @@ public class GraphAnalizador extends javax.swing.JFrame {
     private void BtnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCompilarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnCompilarActionPerformed
+
+    private void jTextArea1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyPressed
+        imprimirLineas();
+    }//GEN-LAST:event_jTextArea1KeyPressed
 
     public static void main(String args[]) {
         try {
@@ -1134,8 +867,11 @@ public class GraphAnalizador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
+
 }
