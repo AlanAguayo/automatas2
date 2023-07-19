@@ -1,0 +1,9 @@
+int x;
+int y;
+int z;
+int w;
+SWITCH ( x )
+CASE 1 :
+y = x - 9;
+x = 3 + x - 9;
+ENDSWITCH
