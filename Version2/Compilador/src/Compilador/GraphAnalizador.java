@@ -1,12 +1,15 @@
-package analizador;
+package compilador;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class GraphAnalizador extends javax.swing.JFrame {
@@ -199,6 +202,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         banderaConst = true;
                     } catch (NumberFormatException e) {
                     }
+                    
                     if (tokens[i].charAt(0) == '"' && tokens[i].charAt(tokens[i].length() - 1) == '"') {
                         try {
                             cadena = String.valueOf((tokens[i]));
@@ -206,7 +210,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         } catch (NumberFormatException e) {
                         }
                     }
-
                     if (banderaSimbolo == false && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                         if (banderaVar == false && banderaOp == false && banderaConst == false) {
                             tablaErrores[contErrores][0] = "" + contLineas;
@@ -255,7 +258,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         }
 
     }
-    public void imprimirLineas(){    
+    public void imprimirLineas(){
             String[] separacion = jTextArea1.getText().split("\n");
             String lineas = "";
             
@@ -287,7 +290,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
     }
 
     public void Abrir() {
+        limpiar();
         try {
+            jTextArea1.setText("");
             FileInputStream fileInputStream = new FileInputStream(archivo);
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "utf8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -526,17 +531,12 @@ public class GraphAnalizador extends javax.swing.JFrame {
         PanelGeneral.setBackground(new java.awt.Color(153, 153, 153));
 
         PanelBoton.setBackground(new java.awt.Color(153, 153, 153));
-        PanelBoton.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Seleccion de despliegue", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelBoton.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Menu", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         BtnCompilar.setBackground(new java.awt.Color(0, 0, 0));
         BtnCompilar.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 14)); // NOI18N
         BtnCompilar.setForeground(new java.awt.Color(240, 240, 240));
         BtnCompilar.setText("Compilar");
-        BtnCompilar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnCompilarMouseClicked(evt);
-            }
-        });
         BtnCompilar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnCompilarActionPerformed(evt);
@@ -547,11 +547,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
         BtnAbrir.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 14)); // NOI18N
         BtnAbrir.setForeground(new java.awt.Color(240, 240, 240));
         BtnAbrir.setText("Abrir");
-        BtnAbrir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnAbrirMouseClicked(evt);
-            }
-        });
         BtnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAbrirActionPerformed(evt);
@@ -562,11 +557,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
         BtnGuardar.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 14)); // NOI18N
         BtnGuardar.setForeground(new java.awt.Color(240, 240, 240));
         BtnGuardar.setText("Guardar");
-        BtnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnGuardarMouseClicked(evt);
-            }
-        });
         BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnGuardarActionPerformed(evt);
@@ -608,7 +598,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         );
 
         PanelSimbolos.setBackground(new java.awt.Color(153, 153, 153));
-        PanelSimbolos.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Simbolos", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelSimbolos.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Simbolos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTable1.setBackground(new java.awt.Color(204, 204, 204));
         jTable1.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
@@ -646,7 +636,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         );
 
         PanelCodigo.setBackground(new java.awt.Color(153, 153, 153));
-        PanelCodigo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Código", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelCodigo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Código", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -685,9 +675,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
         );
 
         PanelErrores.setBackground(new java.awt.Color(153, 153, 153));
-        PanelErrores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Errores", 2, 2, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        PanelErrores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Errores", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
-        jTable2.setBackground(new java.awt.Color(255, 51, 51));
+        jTable2.setBackground(new java.awt.Color(204, 204, 204));
         jTable2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -754,6 +744,8 @@ public class GraphAnalizador extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        PanelBoton.getAccessibleContext().setAccessibleDescription("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -773,7 +765,38 @@ public class GraphAnalizador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BtnCompilarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnCompilarMouseClicked
+    private void BtnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAbrirActionPerformed
+        JFileChooser jf = new JFileChooser();
+        jf.showOpenDialog(this);
+        File archivo = jf.getSelectedFile();
+        if (archivo != null) {
+            GraphAnalizador.archivo = archivo.getAbsolutePath();
+            limpiar();
+            Abrir();
+        }
+    }//GEN-LAST:event_BtnAbrirActionPerformed
+
+    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
+        try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(archivo));
+                writer.write(jTextArea1.getText());
+                writer.close();
+                JOptionPane.showMessageDialog(null, "Archivo guardado exitosamente.");
+                Abrir();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error al guardar el archivo: " + ex.getMessage());
+            }
+    }//GEN-LAST:event_BtnGuardarActionPerformed
+
+    private void BtnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCompilarActionPerformed
+        limpiar();
+        try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(archivo));
+                writer.write(jTextArea1.getText());
+                writer.close();
+            } catch (IOException ex) {
+            }
+        Abrir();
         int filas = modelo1.getRowCount();
         for (int i = 1; i <= filas; i++) {
             modelo1.removeRow(0);
@@ -789,42 +812,6 @@ public class GraphAnalizador extends javax.swing.JFrame {
         for (int i = 0; i < contErrores; i++) {
             modelo2.addRow(new Object[]{tablaErrores[i][0], tablaErrores[i][1]});
         }
-        /*
-        int filas3 = modelo3.getRowCount();
-        for (int i = 1; i <= filas3; i++) {
-            modelo3.removeRow(0);
-        }
-        for (int i = 0; i <conttrip; i++) {
-            modelo3.addRow(new Object[]{tablatripletas[i][0], tablatripletas[i][1], tablatripletas[i][2], tablatripletas[i][3]});
-        }
-         */
-    }//GEN-LAST:event_BtnCompilarMouseClicked
-
-    private void BtnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAbrirMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnAbrirMouseClicked
-
-    private void BtnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGuardarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnGuardarMouseClicked
-
-    private void BtnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAbrirActionPerformed
-        JFileChooser jf = new JFileChooser();
-        jf.showOpenDialog(this);
-        File archivo = jf.getSelectedFile();
-        if (archivo != null) {
-            GraphAnalizador.archivo = archivo.getAbsolutePath();
-            limpiar();
-            Abrir();
-        }
-    }//GEN-LAST:event_BtnAbrirActionPerformed
-
-    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnGuardarActionPerformed
-
-    private void BtnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCompilarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_BtnCompilarActionPerformed
 
     private void jTextArea1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyPressed
