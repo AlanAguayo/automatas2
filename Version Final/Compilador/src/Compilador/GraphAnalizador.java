@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class GraphAnalizador extends javax.swing.JFrame {
 
+    //EMPIEZA VERO
   /*Variables globales, para tokens, errores, simbolos, banderas, lineas de codigo  
    operadores, tipo de variables y ruta de archivos 
   */public static String lineaActual;
@@ -100,6 +101,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         contTokens++;
                     }
                 }
+//TERMINA VERO
+////////////////////////////////
+//EMPIEZA ALAN
 //Comparaciones de los tipos de operadores, operandos y tipo de variables
                 for (int i = 0; (i < contTokens + 1 && !";".equals(tokens[i])); i++) {
                     banderaVar = false;
@@ -156,6 +160,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             }
                         }
                     }
+//Nos saltamos esto
 //Intento de revisar ciclos
                     if ("para".equalsIgnoreCase(tokens[0])) {
                         banderaFor = true;
@@ -186,6 +191,10 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
 //Fin de semantico
+//TERMINA ALAN
+//////////////////////////////////////////////
+
+//EMPIEZA JOSUE
 //Analizador Lexico y sintactico
 //Revisa la tabla de simbolos, si se se encuentra el simbolo correcto
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
@@ -219,6 +228,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         } catch (NumberFormatException e) {
                         }
                     }
+//Nos saltamos esto
 //intento de ciclo
                     if (banderaSimbolo == false && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                         if (banderaVar == false && banderaOp == false && banderaConst == false) {
@@ -268,8 +278,12 @@ public class GraphAnalizador extends javax.swing.JFrame {
         }
 
     }
+    
        //Fin del lexico y sintactico  
+       //TERMINA JOSUE
+//////////////////////////////////
 
+//EMPIEZA ANTONIO
 //Imprimir numero de lineas del codigo a compilar
     public void imprimirLineas(){
             String[] separacion = jTextArea1.getText().split("\n");
@@ -302,7 +316,10 @@ public class GraphAnalizador extends javax.swing.JFrame {
         banderaFor = false;
         tipo = "";
     }
+//TERMINA ANTONIO
+/////////////////////////////////////
 
+//EMPIEZA JORGE
     //Abrir Archivos
     public void Abrir() {
         limpiar();
@@ -515,7 +532,10 @@ public class GraphAnalizador extends javax.swing.JFrame {
         } catch (IOException e) {
         }
     }
+//TERMINA JORGE
+///////////////////////////////////////////////
 
+//EMPIEZA SAUL
     //Interfaz
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -880,5 +900,5 @@ public class GraphAnalizador extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
-
+//TERMINA SAUL
 }
