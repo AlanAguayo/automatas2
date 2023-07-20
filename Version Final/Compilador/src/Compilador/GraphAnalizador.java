@@ -1,4 +1,4 @@
-package compilador;
+package Compilador;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,7 +14,9 @@ import javax.swing.table.DefaultTableModel;
 
 public class GraphAnalizador extends javax.swing.JFrame {
 
-    public static String lineaActual;
+  /*Variables globales, para tokens, errores, simbolos, banderas, lineas de codigo  
+   operadores, tipo de variables y ruta de archivos 
+  */public static String lineaActual;
     public static String[] lineas = new String[100];
     public static String[] lineasAux = new String[100];
     public static String[] tokens = new String[100];
@@ -45,7 +47,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         initComponents();
         modelo1 = (DefaultTableModel) jTable1.getModel();
         modelo2 = (DefaultTableModel) jTable2.getModel();
-
+//Abrir archivo
         try {
             FileInputStream fileInputStream = new FileInputStream(archivo);
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "utf8");
@@ -64,6 +66,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
             }
             contLineas = 0;
 
+            //Leer lineas para guardar en un arreglo
             while ((lineaCodigo = bufferedReader.readLine()) != null) {
                 lineaActual = lineaCodigo;
                 contLineas++;
@@ -77,11 +80,12 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         contTokens++;
                     }
                 }
+//Inicializa el arreglo de Tokens
                 for (int i = 0; i < contTokens; i++) {
                     tokens[i] = "";
                 }
                 contTokens = 0;
-
+        
                 for (int i = 0; i < lineaActual.length(); i++) {
                     if (!" ".equals(lineas[i])) {
                         if (";".equals(lineas[i + 1])) {
@@ -96,7 +100,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         contTokens++;
                     }
                 }
-
+//Comparaciones de los tipos de operadores, operandos y tipo de variables
                 for (int i = 0; (i < contTokens + 1 && !";".equals(tokens[i])); i++) {
                     banderaVar = false;
                     banderaOp = false;
@@ -115,7 +119,8 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             contSimbolos++;
                             banderaSimbolo = true;
                         }
-
+//Analizador Semantico
+//Revisa si se tiene una variable entera
                         if (!";".equals(tokens[2])) {
                             if ("entero".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
@@ -128,7 +133,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                                     contErrores++;
                                     banderaError = true;
                                 }
-
+//Revisa si se tiene una variable flotante
                             } else if ("flotante".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 try {
@@ -139,6 +144,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                                     contErrores++;
                                     banderaError = true;
                                 }
+ //Revisa si se tiene una variable cadena                               
                             } else if ("cadena".equalsIgnoreCase(tokens[0]) && (tokens[3] != null || !"".equals(tokens[3]))
                                     && banderaError == false) {
                                 if (tokens[3].charAt(0) != '"' || tokens[3].charAt(tokens[3].length() - 1) != '"') {
@@ -150,7 +156,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             }
                         }
                     }
-
+//Intento de revisar ciclos
                     if ("para".equalsIgnoreCase(tokens[0])) {
                         banderaFor = true;
                         if (tokens[1].charAt(0) != '(') {
@@ -179,30 +185,33 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             banderaFor = false;
                         }
                     }
-
+//Fin de semantico
+//Analizador Lexico y sintactico
+//Revisa la tabla de simbolos, si se se encuentra el simbolo correcto
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(tablaSimbolos[x][2])) {
                             banderaVar = true;
                         }
                     }
-
+//Operadores
                     for (int x = 0; (x < operadores.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(operadores[x])) {
                             banderaOp = true;
                         }
                     }
-
+//Sintactico, parsea a entero
                     try {
                         entero = Integer.parseInt(tokens[i]);
                         banderaConst = true;
                     } catch (NumberFormatException e) {
                     }
+//parsea a flotante
                     try {
                         flotante = Double.parseDouble(tokens[i]);
                         banderaConst = true;
                     } catch (NumberFormatException e) {
                     }
-                    
+//parsea a char, para las cadenas
                     if (tokens[i].charAt(0) == '"' && tokens[i].charAt(tokens[i].length() - 1) == '"') {
                         try {
                             cadena = String.valueOf((tokens[i]));
@@ -210,6 +219,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         } catch (NumberFormatException e) {
                         }
                     }
+//intento de ciclo
                     if (banderaSimbolo == false && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                         if (banderaVar == false && banderaOp == false && banderaConst == false) {
                             tablaErrores[contErrores][0] = "" + contLineas;
@@ -218,7 +228,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
                             banderaError = true;
                         }
                     }
-
+//Semantico, si el tipo de variable es incompatible
                     for (int x = 0; (x < tablaSimbolos.length && banderaSimbolo == false); x++) {
                         if (tokens[i].equals(tablaSimbolos[x][2])) {
                             if (!"".equals(tipo) && !tablaSimbolos[x][1].equals(tipo)) {
@@ -231,23 +241,23 @@ public class GraphAnalizador extends javax.swing.JFrame {
                         }
                     }
                 }
-
+//intento de ciclo
                 if (!";".equals(tokens[contTokens]) && !"para".equalsIgnoreCase(tokens[0]) && !"finpara".equalsIgnoreCase(tokens[0])) {
                     tablaErrores[contErrores][0] = "" + contLineas;
                     tablaErrores[contErrores][1] = "Hace falta ;";
                     contErrores++;
                 }
-
+//Reinicia las banderas
                 banderaSimbolo = false;
                 banderaVar = false;
                 banderaOp = false;
                 banderaConst = false;
                 banderaError = false;
+          
                 tipo = "";
             }
-
             imprimirLineas();
-            
+//Intento de ciclo  
             if (banderaFor == true) {
                 tablaErrores[contErrores][0] = "" + contLineas;
                 tablaErrores[contErrores][1] = "El ciclo para no tiene un fin;";
@@ -258,6 +268,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
         }
 
     }
+       //Fin del lexico y sintactico  
+
+//Imprimir numero de lineas del codigo a compilar
     public void imprimirLineas(){
             String[] separacion = jTextArea1.getText().split("\n");
             String lineas = "";
@@ -268,6 +281,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
             this.jTextArea2.setText(lineas);
     }
 
+    //Limpiador de variables
     public void limpiar() {
         lineas = new String[100];
         lineasAux = new String[100];
@@ -289,6 +303,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         tipo = "";
     }
 
+    //Abrir Archivos
     public void Abrir() {
         limpiar();
         try {
@@ -501,6 +516,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
         }
     }
 
+    //Interfaz
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -777,6 +793,7 @@ public class GraphAnalizador extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnAbrirActionPerformed
 
     private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
+   //Guardar los archivos e indicador si fue exitoso
         try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(archivo));
                 writer.write(jTextArea1.getText());
@@ -789,6 +806,9 @@ public class GraphAnalizador extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnGuardarActionPerformed
 
     private void BtnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCompilarActionPerformed
+       /*Compilador, guarda el archivo y lo abre, por ultimo vacias en las tablas el 
+        el contenido de los arreglos de las lineas de codigo
+       */
         limpiar();
         try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(archivo));
